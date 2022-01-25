@@ -1,5 +1,8 @@
 package com.ecommerce.microcommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value = {"buyPrice"})
 public class Product {
     private int id;
     private String name;
