@@ -1,7 +1,12 @@
 package com.ecommerce.microcommerce.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 //@JsonFilter("buyPriceFilter")
+@Entity
 public class Product {
+    @Id
     private int id;
     private String name;
     private int price;
