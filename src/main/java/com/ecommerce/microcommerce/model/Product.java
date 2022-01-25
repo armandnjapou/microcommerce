@@ -1,8 +1,6 @@
 package com.ecommerce.microcommerce.model;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-
-@JsonFilter("buyPriceFilter")
+//@JsonFilter("buyPriceFilter")
 public class Product {
     private int id;
     private String name;
