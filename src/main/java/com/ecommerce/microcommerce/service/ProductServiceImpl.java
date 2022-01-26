@@ -1,6 +1,6 @@
 package com.ecommerce.microcommerce.service;
 
-import com.ecommerce.microcommerce.dao.ProductDao;
+import com.ecommerce.microcommerce.repository.ProductRepository;
 import com.ecommerce.microcommerce.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,26 +12,26 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    private ProductDao productDao;
+    private ProductRepository productRepository;
 
     @Override
     public List<Product> getAllProducts() {
-        return productDao.findAll();
+        return productRepository.findAll();
     }
 
     @Override
     public Product getProduct(int id) {
-        return productDao.findById(id);
+        return productRepository.findById(id);
     }
 
     @Override
     public Product saveOrUpdateProduct(Product product) {
-        return productDao.save(product);
+        return productRepository.save(product);
     }
 
     @Override
     public void deleteProduct(int id) {
-        productDao.deleteById(id);
+        productRepository.deleteById(id);
     }
 
     @Override
