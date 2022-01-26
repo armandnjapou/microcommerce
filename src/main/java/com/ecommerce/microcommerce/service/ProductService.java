@@ -10,4 +10,5 @@ public interface ProductService {
     Product saveOrUpdateProduct(Product product);
     void deleteProduct(int id);
     int calculateProductMargin(Product product);
+    void sortProductsByName(List<Product> products);
 }

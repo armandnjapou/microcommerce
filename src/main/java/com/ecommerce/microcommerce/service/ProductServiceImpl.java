@@ -5,6 +5,7 @@ import com.ecommerce.microcommerce.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -36,5 +37,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public int calculateProductMargin(Product product) {
         return product.getPrice() - product.getBuyPrice();
+    }
+
+    @Override
+    public void sortProductsByName(List<Product> products) {
+        products.sort(Comparator.comparing(Product::getName));
     }
 }

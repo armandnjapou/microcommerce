@@ -30,6 +30,7 @@ public class ProductController {
     @GetMapping("/products")
     public MappingJacksonValue listProducts() {
         List<Product> products = productService.getAllProducts();
+        productService.sortProductsByName(products);
         SimpleBeanPropertyFilter buyPriceFilter = SimpleBeanPropertyFilter.serializeAllExcept("buyPrice");
         FilterProvider filterList = new SimpleFilterProvider().addFilter("buyPriceFilter", buyPriceFilter);
         MappingJacksonValue filteredProducts = new MappingJacksonValue(products);
