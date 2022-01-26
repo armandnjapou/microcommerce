@@ -2,13 +2,17 @@ package com.ecommerce.microcommerce.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 //@JsonFilter("buyPriceFilter")
 @Entity
 public class Product {
     @Id
     private int id;
+    @Size(min = 2, max = 25)
     private String name;
+    @Min(value = 1)
     private int price;
     private int buyPrice;
 

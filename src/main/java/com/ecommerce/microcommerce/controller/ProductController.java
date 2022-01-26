@@ -12,6 +12,7 @@ import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
@@ -40,7 +41,7 @@ public class ProductController {
     }
 
     @PostMapping("products")
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody Product product) {
         Product addedProduct = productDao.save(product);
         if(Objects.isNull(addedProduct)) {
             return ResponseEntity.noContent().build();
