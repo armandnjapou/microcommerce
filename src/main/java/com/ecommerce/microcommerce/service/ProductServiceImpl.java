@@ -32,4 +32,9 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(int id) {
         productDao.deleteById(id);
     }
+
+    @Override
+    public int calculateProductMargin(Product product) {
+        return product.getPrice() - product.getBuyPrice();
+    }
 }

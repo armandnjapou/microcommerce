@@ -71,4 +71,12 @@ public class ProductController {
     public void deleteProduct(@PathVariable int id) {
         productService.deleteProduct(id);
     }
+
+    @ApiOperation("Get margin on product")
+    @GetMapping("products/{id}/margin")
+    public int getProductMargin(@PathVariable int id) {
+        Product product = productService.getProduct(id);
+        if(Objects.isNull(product)) throw new ProductNotFoundException("Product with id : " + id + " not found !");
+        else return productService.calculateProductMargin(product);
+    }
 }
