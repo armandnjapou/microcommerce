@@ -1,11 +1,13 @@
 package com.ecommerce.microcommerce.controller;
 
-import com.ecommerce.microcommerce.dao.ProductDao;
 import com.ecommerce.microcommerce.exceptions.ProductNotFoundException;
 import com.ecommerce.microcommerce.model.Product;
+import com.ecommerce.microcommerce.service.ProductService;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -17,15 +19,17 @@ import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
+@Api("API for CRUD operations on products")
 @RestController
 public class ProductController {
 
     @Autowired
-    private ProductDao productDao;
+    private ProductService productService;
 
+    @ApiOperation("Get all available products")
     @GetMapping("/products")
     public MappingJacksonValue listProducts() {
-        List<Product> products = productDao.findAll();
+        List<Product> products = productService.getAllProducts();
         SimpleBeanPropertyFilter buyPriceFilter = SimpleBeanPropertyFilter.serializeAllExcept("buyPrice");
         FilterProvider filterList = new SimpleFilterProvider().addFilter("buyPriceFilter", buyPriceFilter);
         MappingJacksonValue filteredProducts = new MappingJacksonValue(products);
@@ -33,16 +37,18 @@ public class ProductController {
         return filteredProducts;
     }
 
+    @ApiOperation("Get a specific product using id")
     @GetMapping("products/{id}")
     public Product displayProduct(@PathVariable int id) throws ProductNotFoundException {
-        Product product = productDao.findById(id);
+        Product product = productService.getProduct(id);
         if(Objects.isNull(product)) throw new ProductNotFoundException("Product with id : " + id + " not found !");
         else return product;
     }
 
+    @ApiOperation("Add a new product to stock")
     @PostMapping("products")
     public ResponseEntity<Product> addProduct(@Valid @RequestBody Product product) {
-        Product addedProduct = productDao.save(product);
+        Product addedProduct = productService.saveOrUpdateProduct(product);
         if(Objects.isNull(addedProduct)) {
             return ResponseEntity.noContent().build();
         }
@@ -54,13 +60,15 @@ public class ProductController {
         return ResponseEntity.created(location).build();
     }
 
+    @ApiOperation("Update a specific product")
     @PutMapping("products")
     public void updateProduct(@RequestBody Product product) {
-        productDao.save(product);
+        productService.saveOrUpdateProduct(product);
     }
 
+    @ApiOperation("Delete a specific product using id")
     @DeleteMapping("products/{id}")
     public void deleteProduct(@PathVariable int id) {
-        productDao.deleteById(id);
+        productService.deleteProduct(id);
     }
 }
